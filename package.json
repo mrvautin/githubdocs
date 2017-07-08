@@ -1,6 +1,6 @@
 {
     "name": "githubdocs",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Easily build a searchable documentation app using markdown files in your Github Repo.",
     "private": false,
     "scripts": {

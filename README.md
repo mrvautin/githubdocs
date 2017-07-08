@@ -9,6 +9,16 @@ Easily build a searchable documentation app using markdown files in your Github 
 3. Start application: `npm start`
 4. Go to  [http://127.0.0.1:5555](http://127.0.0.1:5555) in your browser
 
+### Markdown files
+
+The docs menu and files are built using files from your Github repo set in the config. Files should have the title of the doc in a single markdown hash/# (HTML = H1) tag in the file. This is used to build the slug of the doc and the menu title etc.
+
+See example docs here: [https://github.com/mrvautin/githubdocs/tree/master/exampleDocs](https://github.com/mrvautin/githubdocs/tree/master/exampleDocs)
+
+### Search
+
+Search is built using [Lunr.js](https://github.com/olivernn/lunr.js/). The index is built and stored in memory on startup. When searched from the client the API is called returning any matching docs from the embedded DB. The menu will then display the match docs. When the search term is removed, the full list of docs is returned.
+
 ### Config
 
 The config file is located here: `/config/config.json`.
