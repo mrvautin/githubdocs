@@ -81,12 +81,12 @@ var lunrIndex = lunr(function (){
     this.field('docBody', {boost: 5});
 });
 
-// get the doc file list
-request(options, function (error, response, body){
-    // clear the db
-    db.remove({}, {multi: true}, function (err, numRemoved) {
+// get the doc file list from Github
+fetchDocs(config.alwaysFetchNewDocs, db, function(body){
+    // clear the db if fetching new docs
+    clearDB(config.alwaysFetchNewDocs, function(){
         // loop our docs and insert into DB
-        _.forEach(JSON.parse(body), function(doc){
+        _.forEach(body, function(doc){
             // only insert files, ignore dirs
             if(doc.type === 'file'){
                 request.get(doc.download_url, function (error, response, body) {
@@ -105,18 +105,30 @@ request(options, function (error, response, body){
                     doc.docBody = renderedHtml;
                     doc.docSlug = slugify(docTitle);
 
-                    // insert into the DB
-                    db.insert(doc, function (err, newDoc) {
-                        // build lunr index doc
+                    // if fetching new docs we insert into DB
+                    if(config.alwaysFetchNewDocs === true){
+                        // insert into the DB
+                        db.insert(doc, function (err, newDoc) {
+                            // build lunr index doc
+                            var indexDoc = {
+                                docTitle: docTitle,
+                                docBody: $.html(),
+                                id: newDoc._id
+                            }
+
+                            // add to lunr index
+                            lunrIndex.add(indexDoc);
+                        });
+                    }else{
                         var indexDoc = {
                             docTitle: docTitle,
                             docBody: $.html(),
-                            id: newDoc._id
+                            id: doc._id
                         }
 
                         // add to lunr index
                         lunrIndex.add(indexDoc);
-                    });
+                    }
                 });
             }
         });
@@ -129,8 +141,34 @@ request(options, function (error, response, body){
 
     // lift the app and serve
     app.listen(app.get('port'), app.get('bind'), function (){
-        console.log('githubdocs running on host: http://' + app.get('bind') + ':' + app.get('port'));
+        console.log('[INFO] githubdocs running on host: http://' + app.get('bind') + ':' + app.get('port'));
     });
 });
+
+function clearDB(clearDB, callback){
+    // clear DB if boolean supplied
+    if(clearDB === true){
+        db.remove({}, {multi: true}, function (err, numRemoved) {
+            console.log('[INFO] Clearing docs from DB');
+            callback();
+        });
+    }
+    callback();
+}
+
+function fetchDocs(fetchDocs, db, callback){
+    // fetch new docs from Github if boolean supplied
+    if(fetchDocs === true){
+        console.log('[INFO] Fetching new docs from Github');
+        request(options, function (error, response, body){
+            callback(JSON.parse(body));
+        });
+    }else{
+        console.log('[INFO] Using existing docs from local DB');
+        db.find({}, function (err, docs){
+            callback(docs);
+        });
+    }
+}
 
 module.exports = app;

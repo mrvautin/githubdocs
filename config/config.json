@@ -3,6 +3,7 @@
     "githubRepoOwner": "mrvautin",
     "githubRepoName": "githubdocs",
     "githubRepoPath": "exampleDocs",
+    "alwaysFetchNewDocs": false,
     "menuItems": [
         {
             "menuTitle": "About",
