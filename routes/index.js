@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 
     db.find({}, function (err, docs){
         res.render('index', { 
-            title: 'Welcome to githubKB',
+            title: 'Welcome to ' + config.title,
             docs: docs,
             config: config
         });
@@ -20,7 +20,6 @@ router.get('/doc/:slug', function(req, res, next) {
 
     db.find({}, function (err, docs){
         db.findOne({docSlug: req.params.slug}, function (err, doc){
-            console.log('doc', doc.docBody);
             res.render('index', { 
                 title: doc.docTitle,
                 doc: doc,

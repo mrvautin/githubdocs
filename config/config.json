@@ -1,8 +1,8 @@
 {
-    "title": "gitHubKB",
+    "title": "githubdocs",
     "githubRepoOwner": "mrvautin",
-    "githubRepoName": "openkb",
-    "githubRepoPath": "routes",
+    "githubRepoName": "githubdocs",
+    "githubRepoPath": "exampleDocs",
     "menuItems": [
         {
             "menuTitle": "About",

@@ -71,60 +71,9 @@ db.loadDatabase();
 var options = {
     url: 'https://api.github.com/repos/' + config.githubRepoOwner + '/' + config.githubRepoName + '/contents/' + config.githubRepoPath,
     headers: {
-        'User-Agent': 'githubkb'
+        'User-Agent': 'githubdocs'
     }
 };
-
-var response = [
-  {
-    "name": "Readme-Guide.md",
-    "path": "Readme-Guide.md",
-    "sha": "c9e7c0f64034b5697dffaabd813dbbbb049aaa31",
-    "size": 8756,
-    "url": "https://api.github.com/repos/mrvautin/openKB/contents/routes/common.js?ref=master",
-    "html_url": "https://github.com/mrvautin/openKB/blob/master/routes/common.js",
-    "git_url": "https://api.github.com/repos/mrvautin/openKB/git/blobs/c9e7c0f64034b5697dffaabd813dbbbb049aaa31",
-    "download_url": "https://raw.githubusercontent.com/expressjs/express/master/Readme-Guide.md",
-    "type": "file",
-    "_links": {
-      "self": "https://api.github.com/repos/mrvautin/openKB/contents/routes/common.js?ref=master",
-      "git": "https://api.github.com/repos/mrvautin/openKB/git/blobs/c9e7c0f64034b5697dffaabd813dbbbb049aaa31",
-      "html": "https://github.com/mrvautin/openKB/blob/master/routes/common.js"
-    }
-  },
-  {
-    "name": "Contributing.md",
-    "path": "Contributing.md",
-    "sha": "ec7f700083b441d0d209adbb14ee877e1d1d359c",
-    "size": 63165,
-    "url": "https://api.github.com/repos/mrvautin/openKB/contents/routes/index.js?ref=master",
-    "html_url": "https://github.com/mrvautin/openKB/blob/master/routes/index.js",
-    "git_url": "https://api.github.com/repos/mrvautin/openKB/git/blobs/ec7f700083b441d0d209adbb14ee877e1d1d359c",
-    "download_url": "https://raw.githubusercontent.com/expressjs/express/master/Contributing.md",
-    "type": "file",
-    "_links": {
-      "self": "https://api.github.com/repos/mrvautin/openKB/contents/routes/index.js?ref=master",
-      "git": "https://api.github.com/repos/mrvautin/openKB/git/blobs/ec7f700083b441d0d209adbb14ee877e1d1d359c",
-      "html": "https://github.com/mrvautin/openKB/blob/master/routes/index.js"
-    }
-  },
-  {
-    "name": "somedir",
-    "path": "routes/somedir/index.js",
-    "sha": "ec7f700083b441d0d209adbb14ee877e1d1d359c",
-    "size": 63165,
-    "url": "https://api.github.com/repos/mrvautin/openKB/contents/routes/index.js?ref=master",
-    "html_url": "https://github.com/mrvautin/openKB/blob/master/routes/index.js",
-    "git_url": "https://api.github.com/repos/mrvautin/openKB/git/blobs/ec7f700083b441d0d209adbb14ee877e1d1d359c",
-    "download_url": "https://raw.githubusercontent.com/mrvautin/openKB/master/routes/index.js",
-    "type": "dir",
-    "_links": {
-      "self": "https://api.github.com/repos/mrvautin/openKB/contents/routes/index.js?ref=master",
-      "git": "https://api.github.com/repos/mrvautin/openKB/git/blobs/ec7f700083b441d0d209adbb14ee877e1d1d359c",
-      "html": "https://github.com/mrvautin/openKB/blob/master/routes/index.js"
-    }
-  }
-];
 
 // setup lunr
 var lunrIndex = lunr(function (){
@@ -133,7 +82,7 @@ var lunrIndex = lunr(function (){
 });
 
 // get the doc file list
-//request(options, function (error, response, body){
+request(options, function (error, response, body){
     // clear the db
     db.remove({}, {multi: true}, function (err, numRemoved) {
         // loop our docs and insert into DB
@@ -180,8 +129,8 @@ var lunrIndex = lunr(function (){
 
     // lift the app and serve
     app.listen(app.get('port'), app.get('bind'), function (){
-        console.log('githubkb running on host: http://' + app.get('bind') + ':' + app.get('port'));
+        console.log('githubdocs running on host: http://' + app.get('bind') + ':' + app.get('port'));
     });
-//});
+});
 
 module.exports = app;
