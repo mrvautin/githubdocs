@@ -15,7 +15,7 @@ The config file is located here: `/config/config.json`.
 
 An example config:
 
-``` json
+``` javascript
 {
     "title": "githubdocs",
     "githubRepoOwner": "mrvautin",
