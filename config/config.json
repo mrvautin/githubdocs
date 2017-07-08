@@ -1,0 +1,16 @@
+{
+    "title": "gitHubKB",
+    "githubRepoOwner": "mrvautin",
+    "githubRepoName": "openkb",
+    "githubRepoPath": "routes",
+    "menuItems": [
+        {
+            "menuTitle": "About",
+            "menuLink": "/about"
+        },
+        {
+            "menuTitle": "Contact",
+            "menuLink": "/contact"
+        }
+    ]
+}

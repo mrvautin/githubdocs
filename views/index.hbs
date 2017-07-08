@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group sidebar">
+            <li class="list-group-item">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </li>
+            {{#each docs}}
+                <li class="list-group-item sidebarLink"><a href="/doc/{{this.docSlug}}">{{this.docTitle}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+    <div class="col-md-9">
+        {{#if doc}}
+            {{{doc.docBody}}}
+        {{else}}
+            {{#with docs.[0]}} 
+                {{{this.docBody}}}
+            {{/with}}
+        {{/if}}
+    </div>
+</div>
