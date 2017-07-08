@@ -86,7 +86,7 @@ request(options, function (error, response, body){
     // clear the db
     db.remove({}, {multi: true}, function (err, numRemoved) {
         // loop our docs and insert into DB
-        _.forEach(response, function(doc){
+        _.forEach(JSON.parse(body), function(doc){
             // only insert files, ignore dirs
             if(doc.type === 'file'){
                 request.get(doc.download_url, function (error, response, body) {
