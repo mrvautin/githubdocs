@@ -1,22 +1,25 @@
 {
-  "name": "githubdocs",
-  "version": "0.0.1",
-  "private": true,
-  "dependencies": {
-    "body-parser": "~1.15.1",
-    "cheerio": "^1.0.0-rc.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "express": "~4.13.4",
-    "github": "^9.2.0",
-    "hbs": "~4.0.0",
-    "lodash": "^4.17.4",
-    "lunr": "^0.7.2",
-    "markdown-it": "^8.3.1",
-    "morgan": "~1.7.0",
-    "nedb": "^1.8.0",
-    "request": "^2.81.0",
-    "serve-favicon": "~2.3.0",
-    "slugify": "^1.1.0"
-  }
+    "name": "githubdocs",
+    "version": "0.0.1",
+    "private": false,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "body-parser": "~1.15.1",
+        "cheerio": "^1.0.0-rc.2",
+        "cookie-parser": "~1.4.3",
+        "debug": "~2.2.0",
+        "express": "~4.13.4",
+        "github": "^9.2.0",
+        "hbs": "~4.0.0",
+        "lodash": "^4.17.4",
+        "lunr": "^0.7.2",
+        "markdown-it": "^8.3.1",
+        "morgan": "~1.7.0",
+        "nedb": "^1.8.0",
+        "request": "^2.81.0",
+        "serve-favicon": "~2.3.0",
+        "slugify": "^1.1.0"
+    }
 }
