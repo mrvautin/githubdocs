@@ -1,9 +1,31 @@
 {
     "name": "githubdocs",
-    "version": "0.0.1",
+    "version": "0.0.2",
+    "description": "Easily build a searchable documentation app using markdown files in your Github Repo.",
     "private": false,
     "scripts": {
         "start": "node app.js"
+    },
+    "main": "app.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mrvautin/githubdocs.git"
+    },
+    "keywords": [
+        "knowledge base",
+        "markdown",
+        "express",
+        "nedb",
+        "documentation",
+        "kb",
+        "faq",
+        "wiki",
+        "github"
+    ],
+    "author": "Mark Moffat",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mrvautin/githubdocs/issues"
     },
     "dependencies": {
         "body-parser": "~1.15.1",
