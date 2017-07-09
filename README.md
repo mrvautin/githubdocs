@@ -9,6 +9,10 @@ Easily build a searchable documentation Single Page Application (SPA) using mark
 3. Start application: `npm start`
 4. Go to  [http://127.0.0.1:5555](http://127.0.0.1:5555) in your browser
 
+### Demo
+
+[https://githubdocs.markmoffat.com](https://githubdocs.markmoffat.com)
+
 ### Markdown files
 
 The docs menu and files are built using files from your Github repo set in the config. Files should have the title of the doc in a single markdown hash/# (HTML = H1) tag in the file. This is used to build the slug of the doc and the menu title etc.
