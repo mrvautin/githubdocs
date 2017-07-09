@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // current sidebar links on page load
-    getSideBarMenu(function(response){
+    getDocs(function(response){
         // create sidebar list from response
         populateSideMenu(response.docs);
 
@@ -17,7 +17,7 @@ $(document).ready(function() {
             $('#main').html(response.docs[0].docBody);
             document.title = response.docs[0].docTitle;
         }else{
-            $('#main').html('No docs. Please create some docs.');
+            $('#main').html('<h3>No docs. Please create some docs.<h3>');
         }
 
         // store the inital list for later
@@ -67,17 +67,30 @@ $(document).ready(function() {
 });
 
 $(window).bind('hashchange', function(){
-    $.ajax({
-        method: 'GET',
-        url: '/doc/' + window.location.hash.substring(1, window.location.hash.length)
-    })
-    .done(function(response, status){
-        $('#main').html(response.doc.docBody);
-        document.title = response.doc.docTitle;
-    });
+    if(window.location.hash.trim() === '#' || window.location.hash.trim() === ''){
+        getDocs(function(response){
+            // show the first doc
+            if(response.docs.length > 0){
+                $('#main').html(response.docs[0].docBody);
+                document.title = response.docs[0].docTitle;
+                window.location.hash = '#' + response.docs[0].docSlug;
+            }else{
+                $('#main').html('<h3>No docs. Please create some docs.<h3>');
+            }
+        });
+    }else{
+        $.ajax({
+            method: 'GET',
+            url: '/doc/' + window.location.hash.substring(1, window.location.hash.length)
+        })
+        .done(function(response, status){
+            $('#main').html(response.doc.docBody);
+            document.title = response.doc.docTitle;
+        });
+    }
 });
 
-function getSideBarMenu(callback){
+function getDocs(callback){
     $.ajax({
         method: 'GET',
         url: '/sidebar'
