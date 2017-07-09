@@ -1,7 +1,7 @@
 {
     "name": "githubdocs",
-    "version": "0.0.3",
-    "description": "Easily build a searchable documentation app using markdown files in your Github Repo.",
+    "version": "0.0.4",
+    "description": "Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo.",
     "private": false,
     "scripts": {
         "start": "node app.js"
@@ -20,7 +20,9 @@
         "kb",
         "faq",
         "wiki",
-        "github"
+        "github",
+        "SPA",
+        "single page application"
     ],
     "author": "Mark Moffat",
     "license": "MIT",

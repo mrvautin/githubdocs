@@ -1,6 +1,6 @@
 # gitHubDocs
 
-Easily build a searchable documentation app using markdown files in your Github Repo.
+Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo.
 
 ### Installation
 
