@@ -32,9 +32,11 @@
         "cheerio": "^1.0.0-rc.2",
         "cookie-parser": "~1.4.3",
         "debug": "~2.2.0",
+        "ejs": "^2.5.6",
         "express": "~4.13.4",
         "github": "^9.2.0",
         "hbs": "~4.0.0",
+        "jade": "^1.11.0",
         "lodash": "^4.17.4",
         "lunr": "^0.7.2",
         "markdown-it": "^8.3.1",
@@ -42,6 +44,8 @@
         "nedb": "^1.8.0",
         "request": "^2.81.0",
         "serve-favicon": "~2.3.0",
-        "slugify": "^1.1.0"
+        "slugify": "^1.1.0",
+        "uglify-js": "^3.0.24",
+        "uglifycss": "0.0.27"
     }
 }

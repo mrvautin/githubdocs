@@ -1,6 +1,5 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -10,18 +9,17 @@ var lunr = require('lunr');
 var slugify = require('slugify');
 var cheerio = require('cheerio');
 var _ = require('lodash');
+var uglifycss = require('uglifycss');
+var uglifyjs = require('uglify-js');
+var fs = require('fs');
 var config = require('./config/config.json');
 
 var routes = require('./routes/index');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.set('port', process.env.PORT || 5555);
 app.set('bind', process.env.BIND || '0.0.0.0');
@@ -46,7 +44,7 @@ app.use(function (req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.send({
             message: err.message,
             error: err
         });
@@ -57,9 +55,9 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.send({
         message: err.message,
-        error: {}
+        error: err
     });
 });
 
@@ -140,8 +138,10 @@ fetchDocs(config.alwaysFetchNewDocs, db, function(body){
     app.index = lunrIndex;
 
     // lift the app and serve
-    app.listen(app.get('port'), app.get('bind'), function (){
-        console.log('[INFO] githubdocs running on host: http://' + app.get('bind') + ':' + app.get('port'));
+    uglify(function(){
+        app.listen(app.get('port'), app.get('bind'), function (){
+            console.log('[INFO] githubdocs running on host: http://' + app.get('bind') + ':' + app.get('port'));
+        });
     });
 });
 
@@ -155,6 +155,28 @@ function clearDB(clearDB, callback){
     }
     callback();
 }
+
+function uglify(callback){
+    // uglify css
+    var cssfileContents = fs.readFileSync(path.join('public', 'stylesheets', 'style.css'), 'utf8');
+    var cssUglified = uglifycss.processString(cssfileContents);
+    fs.writeFileSync(path.join('public', 'stylesheets', 'style.min.css'), cssUglified, 'utf8');
+    
+    // uglify js
+    var rawCode = fs.readFileSync(path.join('public', 'javascripts', 'main.js'), 'utf8');
+    var jsUglified = uglifyjs.minify(rawCode, {
+        compress: {
+            dead_code: true,
+            global_defs: {
+                DEBUG: false
+            }
+        }
+    });
+
+    fs.writeFileSync(path.join('public', 'javascripts', 'main.min.js'), jsUglified.code, 'utf8');
+    console.log('[INFO] Files minified');
+    callback();
+};
 
 function fetchDocs(fetchDocs, db, callback){
     // fetch new docs from Github if boolean supplied

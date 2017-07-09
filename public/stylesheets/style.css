@@ -3,6 +3,57 @@ body {
     padding-bottom: 30px;
 }
 
-.sidebar{
+#main{
+    height: 100%;
+    width: 75%;
+    position: fixed;
+    padding: 0px;
+    left: 25%;
+    overflow-y: scroll;
+}
+
+.sidebar-container {
+    position: fixed;
+    height: 85%;
+    width: 25%;
+    padding-left: 15px;
     margin-top: 20px;
+    overflow-y: scroll;
+}
+
+.sidebar{
+    position: relative;
+}
+
+.sidebarToggle{
+    padding-left: 10px;
+}
+
+.loadingHolder{
+    margin-top: 200px;
+}
+
+
+@media only screen and (max-width : 768px) {
+    .sidebar-container {
+        left: -25%;
+    }
+
+    .sidebar-container-show{
+        left: -0%;
+        width: 100%;
+        background-color: #fff;
+        z-index: 999;
+        -webkit-transition: all .5s;
+        -moz-transition: all .5s;
+        -o-transition: all .5s;
+        transition:all .5s;
+    }
+
+    #main{
+        width: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+        left: 0%;
+    }
 }
