@@ -15,7 +15,7 @@ $(document).ready(function() {
         // show the first doc
         if(response.docs.length > 0){
             $('#main').html(response.docs[0].docBody);
-            document.title = response.docs[0].docTitle;
+            setMetaTags(response.docs[0]);
         }else{
             $('#main').html('<h3>No docs. Please create some docs.<h3>');
         }
@@ -85,7 +85,7 @@ $(window).bind('hashchange', function(){
         })
         .done(function(response, status){
             $('#main').html(response.doc.docBody);
-            document.title = response.doc.docTitle;
+            setMetaTags(response.doc);
         });
     }
 });
@@ -98,6 +98,24 @@ function getDocs(callback){
     .done(function(response, status){
         callback(response);
     });
+}
+
+function stripHTML(dirtyString){
+    return $(dirtyString).text().trim();
+}
+
+
+function setMetaTags(doc){
+    document.title = doc.docTitle;
+    $("meta[property='og\\:title']").attr("content", doc.docTitle);
+    $('meta[name=title]').attr('content', doc.docTitle);
+    if(stripHTML(doc.docBody).length > 160){
+        $("meta[property='og\\:description']").attr('content', stripHTML(doc.docBody.substring(0,200)));
+        $('meta[name=description]').attr('content', stripHTML(doc.docBody.substring(0,200)));
+    }else{
+        $("meta[property='og\\:description']").attr('content', stripHTML(doc.docBody));
+        $('meta[name=description]').attr('content', stripHTML(doc.docBody));
+    }
 }
 
 function populateSideMenu(data){
