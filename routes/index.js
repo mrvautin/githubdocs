@@ -52,4 +52,39 @@ router.post('/search', function(req, res, next) {
     });
 });
 
+// return sitemap
+router.get('/sitemap.xml', function (req, res, next){
+    var sm = require('sitemap');
+    var db = req.app.db;
+
+    // get the articles
+    db.find({}, function (err, docs){
+        var urlArray = [];
+
+        // push in the base url
+        urlArray.push({url: '/', changefreq: 'weekly', priority: 1.0});
+
+        // get the article URL's
+        for(var key in docs){
+            urlArray.push({url: docs[key].docSlug, changefreq: 'weekly', priority: 1.0});
+        }
+
+        // create the sitemap
+        var sitemap = sm.createSitemap({
+            hostname: req.protocol + '://' + req.headers.host,
+            cacheTime: 600000,        // 600 sec - cache purge period
+            urls: urlArray
+        });
+
+        // render the sitemap
+        sitemap.toXML(function(err, xml){
+            if(err){
+                return res.status(500).end();
+            }
+            res.header('Content-Type', 'application/xml');
+            res.send(xml);
+        });
+    });
+});
+
 module.exports = router;
