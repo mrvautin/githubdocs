@@ -1,4 +1,9 @@
-$(document).ready(function() {
+$(document).ready(function(){
+    // if there is a hash, trigger the change event to display the doc
+    if(window.location.hash){
+        $(window).trigger('hashchange');
+    }
+
     // current sidebar links on page load
     getDocs(function(response){
         // create sidebar list from response
