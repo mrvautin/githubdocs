@@ -35,7 +35,7 @@ An example config:
     "githubRepoOwner": "mrvautin",
     "githubRepoName": "githubdocs",
     "githubRepoPath": "exampleDocs",
-    "alwaysFetchNewDocs": false,
+    "updateDocsInterval": 300000,
     "menuItems": [
         {
             "menuTitle": "About",
@@ -56,5 +56,5 @@ An example config:
 |`githubRepoOwner`|Owner/username of the Github repo|
 |`githubRepoName`|Name of the repo holding the Markdown files|
 |`githubRepoPath`|Directory relative to the root of the repo holding the Markdown files|
-|`alwaysFetchNewDocs`|Whether to fetch new docs on startup or whether to use docs in DB. Useful to avoid API rate limiting|
+|`updateDocsInterval`|Determines the interval (in milliseconds) to poll Github for updates to your Markdown files/docs|
 |`menuItems`|Not sure how useful this is. Set the menu items in the top navigation|

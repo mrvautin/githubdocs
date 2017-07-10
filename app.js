@@ -11,6 +11,7 @@ var cheerio = require('cheerio');
 var _ = require('lodash');
 var uglifycss = require('uglifycss');
 var uglifyjs = require('uglify-js');
+var async = require('async');
 var fs = require('fs');
 var config = require('./config/config.json');
 
@@ -79,83 +80,28 @@ var lunrIndex = lunr(function (){
     this.field('docBody', {boost: 5});
 });
 
-// get the doc file list from Github
-fetchDocs(config.alwaysFetchNewDocs, db, function(body){
-    // clear the db if fetching new docs
-    clearDB(config.alwaysFetchNewDocs, function(){
-        // loop our docs and insert into DB
-        _.forEach(body, function(doc){
-            // only insert files, ignore dirs
-            if(doc.type === 'file'){
-                request.get(doc.download_url, function (error, response, body) {
-                    var md = require('markdown-it')();
-                    var renderedHtml = md.render(body);
-                    var $ = cheerio.load(renderedHtml);
-                    var docTitle = $('h1').first().text();
+// add some references to app
+app.db = db;
+app.config = config;
+app.index = lunrIndex;
 
-                    // set the docTitle
-                    if(docTitle.trim() === ''){
-                        docTitle = doc.name;
-                    }
+// set the indexing to occur every Xmins - defaults to: 300000ms
+setInterval(function() {
+    indexDocs(options);
+}, config.updateDocsInterval || 300000);
 
-                    // set the docTitle for the DB
-                    doc.docTitle = docTitle;
-                    doc.docBody = renderedHtml;
-                    doc.docSlug = slugify(docTitle);
-
-                    // if fetching new docs we insert into DB
-                    if(config.alwaysFetchNewDocs === true){
-                        // insert into the DB
-                        db.insert(doc, function (err, newDoc) {
-                            // build lunr index doc
-                            var indexDoc = {
-                                docTitle: docTitle,
-                                docBody: $.html(),
-                                id: newDoc._id
-                            }
-
-                            // add to lunr index
-                            lunrIndex.add(indexDoc);
-                        });
-                    }else{
-                        var indexDoc = {
-                            docTitle: docTitle,
-                            docBody: $.html(),
-                            id: doc._id
-                        }
-
-                        // add to lunr index
-                        lunrIndex.add(indexDoc);
-                    }
-                });
-            }
-        });
-    });
-
-    // add some references to app
-    app.db = db;
-    app.config = config;
-    app.index = lunrIndex;
-
-    // lift the app and serve
-    uglify(function(){
+// uglify assets
+uglify(function(){
+    // kick off initial index
+    indexDocs(options, function(){
+        // serve the app
         app.listen(app.get('port'), app.get('bind'), function (){
             console.log('[INFO] githubdocs running on host: http://' + app.get('bind') + ':' + app.get('port'));
         });
     });
 });
 
-function clearDB(clearDB, callback){
-    // clear DB if boolean supplied
-    if(clearDB === true){
-        db.remove({}, {multi: true}, function (err, numRemoved) {
-            console.log('[INFO] Clearing docs from DB');
-            callback();
-        });
-    }
-    callback();
-}
-
+// uglify assets
 function uglify(callback){
     // uglify css
     var cssfileContents = fs.readFileSync(path.join('public', 'stylesheets', 'style.css'), 'utf8');
@@ -178,19 +124,52 @@ function uglify(callback){
     callback();
 };
 
-function fetchDocs(fetchDocs, db, callback){
-    // fetch new docs from Github if boolean supplied
-    if(fetchDocs === true){
-        console.log('[INFO] Fetching new docs from Github');
-        request(options, function (error, response, body){
-            callback(JSON.parse(body));
+// indexes the docs from Github. Is ran on initial start and the interval in config or default
+function indexDocs(options, callback){
+    request(options, function(error, response, body){
+        // loop our docs and insert into DB
+        async.each(JSON.parse(body), function(doc, callback) {
+            // only insert files, ignore dirs
+            if(doc.type === 'file'){
+                request.get(doc.download_url, function (error, response, body) {
+                    var md = require('markdown-it')();
+                    var renderedHtml = md.render(body);
+                    var $ = cheerio.load(renderedHtml);
+                    var docTitle = $('h1').first().text();
+
+                    // set the docTitle
+                    if(docTitle.trim() === ''){
+                        docTitle = doc.name;
+                    }
+
+                    // set the docTitle for the DB
+                    doc.docTitle = docTitle;
+                    doc.docBody = renderedHtml;
+                    doc.docSlug = slugify(docTitle);
+                    
+                    // upsert doc
+                    db.update({docSlug: doc.docSlug}, doc, {upsert: true}, function (err, newDoc) {
+                        // build lunr index doc
+                        var indexDoc = {
+                            docTitle: docTitle,
+                            docBody: $.html(),
+                            id: newDoc._id
+                        }
+
+                        // add to lunr index
+                        lunrIndex.add(indexDoc);        
+                        callback();
+                    });
+                });
+            }
+        }, function(err) {
+            console.log('[INFO] Indexing complete');
+            // callback on optional callback
+            if(callback){
+                callback();
+            }
         });
-    }else{
-        console.log('[INFO] Using existing docs from local DB');
-        db.find({}, function (err, docs){
-            callback(docs);
-        });
-    }
+    });
 }
 
 module.exports = app;
