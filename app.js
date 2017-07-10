@@ -148,17 +148,21 @@ function indexDocs(options, callback){
                     doc.docSlug = slugify(docTitle);
                     
                     // upsert doc
-                    db.update({docSlug: doc.docSlug}, doc, {upsert: true}, function (err, newDoc) {
-                        // build lunr index doc
-                        var indexDoc = {
-                            docTitle: docTitle,
-                            docBody: $.html(),
-                            id: newDoc._id
-                        }
+                    db.findOne({docSlug: doc.docSlug}, function(err, existingDoc){
+                        db.update({docSlug: doc.docSlug}, doc, {upsert: true}, function (err, numReplaced, upsert) {
+                            var docId = typeof upsert === 'undefined' ? existingDoc._id : upsert._id;
 
-                        // add to lunr index
-                        lunrIndex.add(indexDoc);        
-                        callback();
+                            // build lunr index doc
+                            var indexDoc = {
+                                docTitle: docTitle,
+                                docBody: $.html(),
+                                id: docId
+                            }
+
+                            // add to lunr index
+                            lunrIndex.add(indexDoc);        
+                            callback();
+                        });
                     });
                 });
             }
