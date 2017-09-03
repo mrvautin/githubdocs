@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css" />
+        <link rel='stylesheet' href='/stylesheets/material-style.css' />
+        <meta name="title" content="" />
+        <meta name="description" content="" />
+        <meta property="og:title" content="" />
+        <meta property="og:description" content="" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    </head>
+    <body>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"></a>
+                <ul id="navbar" class="right ">
+                    <li class="hide-on-med-and-down"><a href="/">Home</a></li>
+                    <li>
+                        <a class="hide-on-med-and-up sidebarToggle waves-effect waves-light btn"><i class="material-icons">menu</i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col s3 sidebar-container">
+                    <ul class="collection sidebar">
+                        <li class="collection-item">
+                            <input id="searchInput" type="text" placeholder="Search for...">
+                        </li>
+                    </ul>
+                </div>
+                <div id="linkPrev" class="col s1 hide-on-small-only docLink  valign-wrapper">
+                    <a href="/"><i class="material-icons">navigate_before</i></a>
+                </div>
+                <div class="col s7">
+                    <div id="main"><h3 class="text-center loadingHolder">Loading...</h3></div>
+                </div>
+                <div id="linkNext" class="col s1 hide-on-small-only docLink valign-wrapper">
+                    <a href="/"><i class="material-icons">navigate_next</i></a>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="/javascripts/main.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>

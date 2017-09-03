@@ -1,0 +1,36 @@
+{
+    "title": "githubdocs",
+    "githubRepoOwner": "mrvautin",
+    "githubRepoName": "githubdocs",
+    "githubRepoPath": "exampleDocs",
+    "updateDocsInterval": 300000,
+    "menuItems": [
+        {
+            "menuTitle": "About",
+            "menuLink": "/about"
+        },
+        {
+            "menuTitle": "Contact",
+            "menuLink": "/contact"
+        }
+    ],
+    "layoutFile": "material.html",
+    "docs": [
+        {
+            "title": "dsdsd ursos sdsdds dsdsd",
+            "file": "docs/dsdsd ursos sdsdds dsdsd.md"
+        },
+        {
+            "title": "Aut procul ursos nondum",
+            "file": "docs/Aut procul ursos nondum.md"
+        },
+        {
+            "title": "Erant ventorum aliter esse pervenientia mutua numquam",
+            "file": "docs/Erant ventorum aliter esse pervenientia mutua numquam.md"
+        },
+        {
+            "title": "Suam aera",
+            "file": "docs/Suam aera.md"
+        }
+    ]
+}
