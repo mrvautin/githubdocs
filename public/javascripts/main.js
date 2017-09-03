@@ -10,7 +10,7 @@ $(document).ready(function(){
         populateSideMenu(response.docs);
 
         // set the navbar brand title from config
-        $('.navbar-brand, .brand-logo').html(response.config.title);
+        $('.navbar-brand').html(response.config.title);
 
         // set the hash to the first doc
         if(window.location.hash === '' && response.docs.length > 0){
@@ -46,7 +46,7 @@ $(document).ready(function(){
                         $('.sidebarLink').remove();
 
                         $.each(response, function(key, value){
-                            $('.sidebar').append('<li class="list-group-item sidebarLink collection-item"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
+                            $('.sidebar').append('<li class="list-group-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
                         });
                     }else{
                         // remove current list
@@ -90,18 +90,6 @@ $(window).bind('hashchange', function(){
         })
         .done(function(response, status){
             $('#main').html(response.doc.docBody);
-            if(response.doc.nextDoc){
-                $('#linkNext a').removeClass("hidden hide");
-                $('#linkNext a').attr("href", "#" + response.doc.nextDoc.docSlug)
-            }else{
-                $('#linkNext a').addClass("hidden hide");
-            }
-            if(response.doc.prevDoc){
-                $('#linkPrev a').removeClass("hidden hide");
-                $('#linkPrev a').attr("href", "#" + response.doc.prevDoc.docSlug)
-            }else{
-                $('#linkPrev a').addClass("hidden hide");
-            }
             setMetaTags(response.doc);
         });
     }
@@ -137,7 +125,7 @@ function setMetaTags(doc){
 
 function populateSideMenu(data){
     $.each(data, function(key, value){
-        $('.sidebar').append('<li class="list-group-item sidebarLink collection-item"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
+        $('.sidebar').append('<li class="list-group-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
     });
 }
 
