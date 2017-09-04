@@ -1,6 +1,6 @@
 {
     "name": "githubdocs",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo or local files.",
     "private": false,
     "scripts": {
