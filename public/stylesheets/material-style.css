@@ -7,6 +7,10 @@
     padding-bottom: 80px;
 }
 
+#navbar a{
+    color: #2196F3 !important;
+}
+
 .brand-logo{
     padding-left: 15px !important;
 }
