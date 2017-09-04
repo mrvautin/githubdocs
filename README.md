@@ -39,6 +39,7 @@ An example config:
     "githubRepoName": "githubdocs",
     "githubRepoPath": "exampleDocs",
     "updateDocsInterval": 300000,
+    "addAnchors": true,
     "menuItems": [
         {
             "menuTitle": "About",
@@ -60,6 +61,7 @@ An example config:
 |`githubRepoName`|Name of the repo holding the Markdown files|
 |`githubRepoPath`|Directory relative to the root of the repo holding the Markdown files|
 |`updateDocsInterval`|Determines the interval (in milliseconds) to poll Github for updates to your Markdown files/docs|
+|`addAnchors`|Transforms H1, H2, H3, H4, H5 info HTML anchor points for easy sharing|
 |`menuItems`|Not sure how useful this is. Set the menu items in the top navigation|
 
 ## Static websites

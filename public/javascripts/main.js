@@ -64,6 +64,7 @@ $(document).ready(function(){
 });
 
 $(window).bind('hashchange', function(){
+    scrollTo();
     if(window.location.hash.trim() === '#' || window.location.hash.trim() === ''){
         getDocs(function(response){
             // show the first doc
@@ -78,7 +79,7 @@ $(window).bind('hashchange', function(){
     }else{
         $.ajax({
             method: 'GET',
-            url: '/doc/' + window.location.hash.substring(1, window.location.hash.length)
+            url: '/doc/' + parseURL().hash
         })
         .done(function(response, status){
             $('#main').html(response.doc.docBody);
@@ -100,10 +101,43 @@ $(window).bind('hashchange', function(){
             $("pre code").each(function(i, block) {
                 hljs.highlightBlock(block);
             });
+
+            // add anchor points to headings
+            if(response.config.addAnchors){
+                var url = parseURL();
+                $("h1, h2, h3, h4, h5").each(function(value) {
+                    var origText = $(this).text();
+                    $(this).html("<a name='" + origText + "' href='#" + url.hash + "/" + origText + "'>" + origText + "</a>")
+                });
+
+                // scroll to given anchor
+                scrollTo();
+            }
         });
     }
 });
 
+function parseURL(){
+    var url = window.location.hash;
+    url = url.split("/");
+    url.hash = url[0].substring(1, window.location.hash.length)
+    if(url.length > 0){
+        url.anchor = url[1];
+    }
+
+    return url;
+}
+
+// scrolls to an anchor point
+function scrollTo(){
+    var url = parseURL();
+    var anchor = $("a[name='"+ url.anchor +"']");
+    if(anchor.length){
+        $('html,body').animate({scrollTop: anchor.offset().top},'slow');
+    }
+}
+
+// gets the docs from the API
 function getDocs(callback){
     $.ajax({
         method: 'GET',
@@ -114,11 +148,12 @@ function getDocs(callback){
     });
 }
 
+// cleans HTML
 function stripHTML(dirtyString){
     return $(dirtyString).text().trim();
 }
 
-
+// sets the mega tags for the page
 function setMetaTags(doc){
     document.title = doc.docTitle;
     $("meta[property='og\\:title']").attr("content", doc.docTitle);

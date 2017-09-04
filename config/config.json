@@ -14,6 +14,7 @@
             "menuLink": "/contact"
         }
     ],
+    "addAnchors": true,
     "layoutFile": "material.html",
     "docs": [
         {
