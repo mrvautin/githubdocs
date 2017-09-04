@@ -38,7 +38,7 @@ router.get('/doc/:slug', function(req, res, next) {
     })
 
     // Get the doc HTML
-    const docFileRead = fs.readFileSync(path.join(__dirname, "../", "dist", reqDoc.title + ".html"), "utf-8");
+    const docFileRead = fs.readFileSync(path.join(__dirname, "../", "dist", reqDoc.title.toLowerCase() + ".html"), "utf-8");
 
     res.status(200).json({
         title: reqDoc.docTitle,
