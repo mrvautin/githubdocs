@@ -102,6 +102,11 @@ $(window).bind('hashchange', function(){
                 hljs.highlightBlock(block);
             });
 
+            $("img").each(function(value) {
+                $(this).parent().addClass("center-align align-center")
+                $(this).addClass("img-responsive responsive-img")
+            });
+
             // add anchor points to headings
             if(response.config.addAnchors){
                 var url = parseURL();

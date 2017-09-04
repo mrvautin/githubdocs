@@ -33,6 +33,27 @@ nav{
     overflow-y: scroll;
 }
 
+img{
+    text-align: center;
+}
+
+code{
+    background-color: #f3f3f3;
+}
+
+blockquote {
+    border-left: 5px solid #e0e0e0;
+}
+
+hr{
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+    margin: 1em 0;
+    padding: 0;
+}
+
 .sidebar{
     position: relative;
 }
