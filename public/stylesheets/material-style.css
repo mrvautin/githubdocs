@@ -11,6 +11,11 @@
     color: #2196F3 !important;
 }
 
+nav{
+    box-shadow: none;
+    border-bottom: 1px solid #e0e0e0;
+}
+
 .brand-logo{
     padding-left: 15px !important;
 }
