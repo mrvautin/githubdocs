@@ -1,6 +1,6 @@
 # gitHubDocs
 
-Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo or local Markdown files.
+Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo or local Markdown files. Github docs is a lightweight alternative to Gitbooks allowing simple but powerful Markdown generate documentation websites.
 
 ## Website from Github Repo
 
