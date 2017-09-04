@@ -18,20 +18,32 @@
     "layoutFile": "material.html",
     "docs": [
         {
-            "title": "Aut procul ursos nondum",
-            "file": "docs/Aut procul ursos nondum.md"
+            "title": "Introduction",
+            "file": "docs/Introduction.md"
         },
         {
-            "title": "dsdsd ursos sdsdds dsdsd",
-            "file": "docs/dsdsd ursos sdsdds dsdsd.md"
+            "title": "How it works",
+            "file": "docs/How it works.md"
         },
         {
-            "title": "Erant ventorum aliter esse pervenientia mutua numquam",
-            "file": "docs/Erant ventorum aliter esse pervenientia mutua numquam.md"
+            "title": "Installation",
+            "file": "docs/Installation.md"
         },
         {
-            "title": "Suam aera",
-            "file": "docs/Suam aera.md"
+            "title": "Github repository",
+            "file": "docs/Github repository.md"
+        },
+        {
+            "title": "Local files",
+            "file": "docs/Local files.md"
+        },
+        {
+            "title": "Configuration",
+            "file": "docs/Configuration.md"
+        },
+        {
+            "title": "Theming",
+            "file": "docs/Theming.md"
         }
     ]
 }
