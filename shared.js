@@ -45,10 +45,10 @@ module.exports.build = function(callback) {
             callback()
         })
         .catch(() => {
-            console.log("One or more files were not found");
+            console.log("[ERROR] One or more files were not found");
             callback()
         });
     }else{
-        console.log("No docs to process. Add some to your config.json file");
+        console.log("[ERROR] No docs to process. Add some to your config.json file");
     }
 };

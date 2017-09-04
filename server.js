@@ -128,7 +128,7 @@ function indexDocs(callback){
         })
         callback()
     }else{
-        console.log("No docs found");
+        console.log("[ERROR] No docs found");
         process.exit(0);
     }
 }
