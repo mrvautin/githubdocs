@@ -101,21 +101,15 @@ function indexDocs(callback){
             let fileContents = fs.readFileSync(doc.file, "utf-8")
             let renderedHtml = md.render(fileContents);
             let $ = cheerio.load(renderedHtml);
-            let docTitle = $('h1').first().text();
-
-            // set the docTitle
-            if(docTitle.trim() === ''){
-                docTitle = doc.name;
-            }
 
             // set the docTitle for the DB
-            doc.docTitle = docTitle;
+            doc.docTitle = doc.title;
             doc.docBody = renderedHtml;
-            doc.docSlug = slugify(docTitle);
+            doc.docSlug = slugify(doc.title);
 
             // build lunr index doc
             var indexDoc = {
-                docTitle: docTitle,
+                docTitle: doc.title,
                 docBody: $.html(),
                 id: docIndex
             }
