@@ -10,19 +10,11 @@ $(document).ready(function(){
         populateSideMenu(response.docs);
 
         // set the navbar brand title from config
-        $('.navbar-brand').html(response.config.title);
+        $('.navbar-brand, .brand-logo').html(response.config.title);
 
         // set the hash to the first doc
         if(window.location.hash === '' && response.docs.length > 0){
             window.location.hash = '#' + response.docs[0].docSlug;
-        }
-
-        // show the first doc
-        if(response.docs.length > 0){
-            $('#main').html(response.docs[0].docBody);
-            setMetaTags(response.docs[0]);
-        }else{
-            $('#main').html('<h3>No docs. Please create some docs.<h3>');
         }
 
         // store the inital list for later
@@ -46,7 +38,7 @@ $(document).ready(function(){
                         $('.sidebarLink').remove();
 
                         $.each(response, function(key, value){
-                            $('.sidebar').append('<li class="list-group-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
+                            $('.sidebar').append('<li class="list-group-item collection-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
                         });
                     }else{
                         // remove current list
@@ -77,7 +69,7 @@ $(window).bind('hashchange', function(){
             // show the first doc
             if(response.docs.length > 0){
                 $('#main').html(response.docs[0].docBody);
-                document.title = response.docs[0].docTitle;
+                setMetaTags(response.docs[0]);
                 window.location.hash = '#' + response.docs[0].docSlug;
             }else{
                 $('#main').html('<h3>No docs. Please create some docs.<h3>');
@@ -91,6 +83,23 @@ $(window).bind('hashchange', function(){
         .done(function(response, status){
             $('#main').html(response.doc.docBody);
             setMetaTags(response.doc);
+
+            if(response.doc.nextDoc){
+                $("#linkNext a").attr("href", "#" + response.doc.nextDoc.docSlug);
+                $("#linkNext a").removeClass("hidden hide");
+            }else{
+                $("#linkNext a").addClass("hidden hide");
+            }
+            if(response.doc.prevDoc){
+                $("#linkPrev a").attr("href", "#" + response.doc.prevDoc.docSlug);
+                $("#linkPrev a").removeClass("hidden hide");
+            }else{
+                $("#linkPrev a").addClass("hidden hide");
+            }
+
+            $("pre code").each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
         });
     }
 });
@@ -125,7 +134,7 @@ function setMetaTags(doc){
 
 function populateSideMenu(data){
     $.each(data, function(key, value){
-        $('.sidebar').append('<li class="list-group-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
+        $('.sidebar').append('<li class="list-group-item collection-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
     });
 }
 

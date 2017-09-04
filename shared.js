@@ -12,6 +12,10 @@ module.exports.uglify = function(callback) {
     var cssUglified = uglifycss.processString(cssfileContents);
     fs.writeFileSync(path.join('public', 'stylesheets', 'style.min.css'), cssUglified, 'utf8');
 
+    var materialCssfileContents = fs.readFileSync(path.join('public', 'stylesheets', 'material-style.css'), 'utf8');
+    var materialCssUglified = uglifycss.processString(materialCssfileContents);
+    fs.writeFileSync(path.join('public', 'stylesheets', 'material-style.min.css'), materialCssUglified, 'utf8');
+
     // uglify js
     var rawCode = fs.readFileSync(path.join('public', 'javascripts', 'main.js'), 'utf8');
     var jsUglified = uglifyjs.minify(rawCode, {
@@ -44,5 +48,7 @@ module.exports.build = function(callback) {
             console.log("One or more files were not found");
             callback()
         });
+    }else{
+        console.log("No docs to process. Add some to your config.json file");
     }
 };

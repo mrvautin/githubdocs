@@ -14,4 +14,8 @@ if(args === 'build'){
         console.log("Successfully built");
         process.exit(0);
     });
+}else if(args === 'serve'){
+    require("./server")
+}else{
+    console.log("No option selected. Valid options are: build, serve");
 }

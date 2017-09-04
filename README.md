@@ -1,6 +1,8 @@
 # gitHubDocs
 
-Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo.
+Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo or local Markdown files.
+
+## Website from Github Repo
 
 ### Installation
 
@@ -12,6 +14,7 @@ Easily build a searchable documentation Single Page Application (SPA) using mark
 ### Demo
 
 [https://githubdocs.markmoffat.com](https://githubdocs.markmoffat.com)
+
 
 ### Markdown files
 
@@ -58,3 +61,70 @@ An example config:
 |`githubRepoPath`|Directory relative to the root of the repo holding the Markdown files|
 |`updateDocsInterval`|Determines the interval (in milliseconds) to poll Github for updates to your Markdown files/docs|
 |`menuItems`|Not sure how useful this is. Set the menu items in the top navigation|
+
+## Static websites
+
+It's also possible to create a site from local Markdown files rather than using a Github repo.
+
+### Building
+
+You can build your website using the following command from the root of your app:
+
+```
+node githubdocs build
+```
+
+### Starting
+
+You can start your website using the following command from the root of your app:
+
+```
+node githubdocs serve
+```
+
+Or
+
+```
+node server.js
+```
+
+### Config
+
+To do this you place your Markdown files into the `docs` folder and add the Titles and file names to your `config.json` file.
+
+An example `config.json` for a static site:
+
+``` json
+"docs": [
+    {
+        "title": "Aut procul ursos nondum",
+        "file": "docs/Aut procul ursos nondum.md"
+    },
+    {
+        "title": "dsdsd ursos sdsdds dsdsd",
+        "file": "docs/dsdsd ursos sdsdds dsdsd.md"
+    },
+    {
+        "title": "Erant ventorum aliter esse pervenientia mutua numquam",
+        "file": "docs/Erant ventorum aliter esse pervenientia mutua numquam.md"
+    },
+    {
+        "title": "Suam aera",
+        "file": "docs/Suam aera.md"
+    }
+]
+```
+
+The `title` property will be used for the menu, title and slug. The `file` value is the name and path to the file.
+
+### Layouts
+
+You can also specify your own layout file. The default `index.html` file is used unless you specify a different file in your `config.json`.
+
+``` json
+{
+    "layoutFile": "material.html"
+}
+```
+
+Included is a `material.html` design template and a Bootstrap template (`index.html`).
