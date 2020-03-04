@@ -1,7 +1,5 @@
 const express = require('express');
 const path = require('path');
-const slugify = require('slugify');
-const fs = require('fs');
 const {
     generateSitemap
 } = require('../lib/common');
