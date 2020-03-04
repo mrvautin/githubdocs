@@ -1,89 +1,68 @@
-var express = require('express');
-var path = require('path');
-var router = express.Router();
+const express = require('express');
+const path = require('path');
+const {
+    generateSitemap
+} = require('../lib/common');
+const router = express.Router();
 
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
 });
 
-router.get('/config', function(req, res, next) {
+router.get('/config', (req, res) => {
     res.status(200).json(req.app.config);
 });
 
-router.get('/sidebar', function(req, res, next) {
-    var db = req.app.db;
-    var config = req.app.config;
+router.get('/sidebar', async (req, res) => {
+    const db = req.app.db;
+    const config = req.app.config;
 
-    db.find({}, function (err, docs){
-        res.status(200).json({docs: docs, config: config});
-    });
+    const docs = await db.find({});
+    res.status(200).json({ docs: docs, config: config });
 });
 
-router.get('/doc/:slug', function(req, res, next) {
-    var db = req.app.db;
-    var config = req.app.config;
+router.get('/doc/:slug', async (req, res) => {
+    const db = req.app.db;
+    const config = req.app.config;
 
-    db.find({}, function (err, docs){
-        db.findOne({docSlug: req.params.slug}, function (err, doc){
-            res.status(200).json({
-                title: doc.docTitle,
-                doc: doc,
-                docs: docs,
-                config: config
-            });
-        });
+    const docs = await db.find({});
+    const doc = await db.findOne({ docSlug: req.params.slug });
+    res.status(200).json({
+        title: doc.docTitle,
+        doc: doc,
+        docs: docs,
+        config: config
     });
 });
 
 // search on the index
-router.post('/search', function(req, res, next) {
-    var db = req.app.db;
-    var lunrIndex = req.app.index;
+router.post('/search', async (req, res) => {
+    const db = req.app.db;
+    const index = req.app.index;
 
-    // we strip the ID's from the lunr index search
-    var lunrIdArray = [];
-    lunrIndex.search(req.body.keyword).forEach(function(id){
-        lunrIdArray.push(id.ref);
+    // we strip the ID's from the index search
+    const indexArray = [];
+    index.search(req.body.keyword).forEach((id) => {
+        indexArray.push(id._id);
     });
 
-    // we search on the lunr indexes
-    db.find({_id: {$in: lunrIdArray}}, function(err, results){
-        res.status(200).json(results);
-    });
+    // we search on the indexes
+    const results = await db.find({ _id: { $in: indexArray } });
+    res.status(200).json(results);
 });
 
 // return sitemap
-router.get('/sitemap.xml', function (req, res, next){
-    var sm = require('sitemap');
-    var db = req.app.db;
+router.get('/sitemap.xml', async (req, res) => {
+    const sitemap = await generateSitemap(req);
 
-    // get the articles
-    db.find({}, function (err, docs){
-        var urlArray = [];
-
-        // push in the base url
-        urlArray.push({url: '/', changefreq: 'weekly', priority: 1.0});
-
-        // get the article URL's
-        for(var key in docs){
-            urlArray.push({url: docs[key].docSlug, changefreq: 'weekly', priority: 1.0});
+    // render the sitemap
+    sitemap.toXML((err, xml) => {
+        if(err){
+            res.status(500).end();
+            return;
         }
-
-        // create the sitemap
-        var sitemap = sm.createSitemap({
-            hostname: req.protocol + '://' + req.headers.host,
-            cacheTime: 600000,        // 600 sec - cache purge period
-            urls: urlArray
-        });
-
-        // render the sitemap
-        sitemap.toXML(function(err, xml){
-            if(err){
-                return res.status(500).end();
-            }
-            res.header('Content-Type', 'application/xml');
-            res.send(xml);
-        });
+        res.header('Content-Type', 'application/xml');
+        res.send(xml);
     });
 });
 

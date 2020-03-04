@@ -1,11 +1,12 @@
-$(document).ready(function(){
+/* globals hljs */
+$(document).ready(() => {
     // if there is a hash, trigger the change event to display the doc
     if(window.location.hash){
         $(window).trigger('hashchange');
     }
 
     // current sidebar links on page load
-    getDocs(function(response){
+    getDocs((response) => {
         // create sidebar list from response
         populateSideMenu(response.docs);
 
@@ -18,26 +19,26 @@ $(document).ready(function(){
         }
 
         // store the inital list for later
-        var currentListGroup = $('.sidebarLink');;
+        const currentListGroup = $('.sidebarLink'); ;
 
         // populate the top menu
         populateTopMenu();
 
         // if user searches
-        $('#searchInput').on('keyup', function(){
+        $('#searchInput').on('keyup', () => {
             // only search if input more than 2 chars
             if($('#searchInput').val().length > 2){
                 $.ajax({
                     method: 'POST',
-                    data: {keyword: $('#searchInput').val()},
+                    data: { keyword: $('#searchInput').val() },
                     url: '/search'
                 })
-                .done(function(response, status){
+                .done((response, status) => {
                     if(status === 'success'){
                         // remove current list
                         $('.sidebarLink').remove();
 
-                        $.each(response, function(key, value){
+                        $.each(response, (key, value) => {
                             $('.sidebar').append('<li class="list-group-item collection-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
                         });
                     }else{
@@ -54,19 +55,19 @@ $(document).ready(function(){
         });
     });
 
-    $('.sidebarToggle').click(function(){
+    $('.sidebarToggle').click(() => {
         $('.sidebar-container').toggleClass('sidebar-container-show');
     });
 
-    $('body').on('click', '.sidebarLink a', function() {
+    $('body').on('click', '.sidebarLink a', () => {
         $('.sidebar-container').toggleClass('sidebar-container-show');
     });
 });
 
-$(window).bind('hashchange', function(){
+$(window).bind('hashchange', () => {
     scrollTo();
     if(window.location.hash.trim() === '#' || window.location.hash.trim() === ''){
-        getDocs(function(response){
+        getDocs((response) => {
             // show the first doc
             if(response.docs.length > 0){
                 $('#main').html(response.docs[0].docBody);
@@ -81,38 +82,38 @@ $(window).bind('hashchange', function(){
             method: 'GET',
             url: '/doc/' + parseURL().hash
         })
-        .done(function(response, status){
+        .done((response, status) => {
             $('#main').html(response.doc.docBody);
             setMetaTags(response.doc);
 
             if(response.doc.nextDoc){
-                $("#linkNext a").attr("href", "#" + response.doc.nextDoc.docSlug);
-                $("#linkNext a").removeClass("hidden hide");
+                $('#linkNext a').attr('href', '#' + response.doc.nextDoc.docSlug);
+                $('#linkNext a').removeClass('hidden hide');
             }else{
-                $("#linkNext a").addClass("hidden hide");
+                $('#linkNext a').addClass('hidden hide');
             }
             if(response.doc.prevDoc){
-                $("#linkPrev a").attr("href", "#" + response.doc.prevDoc.docSlug);
-                $("#linkPrev a").removeClass("hidden hide");
+                $('#linkPrev a').attr('href', '#' + response.doc.prevDoc.docSlug);
+                $('#linkPrev a').removeClass('hidden hide');
             }else{
-                $("#linkPrev a").addClass("hidden hide");
+                $('#linkPrev a').addClass('hidden hide');
             }
 
-            $("pre code").each(function(i, block) {
+            $('pre code').each((i, block) => {
                 hljs.highlightBlock(block);
             });
 
-            $("img").each(function(value) {
-                $(this).parent().addClass("center-align align-center")
-                $(this).addClass("img-responsive responsive-img")
+            $('img').each(function(value){
+                $(this).parent().addClass('center-align align-center');
+                $(this).addClass('img-responsive responsive-img');
             });
 
             // add anchor points to headings
             if(response.config.addAnchors){
-                var url = parseURL();
-                $("h1, h2, h3, h4, h5").each(function(value) {
-                    var origText = $(this).text();
-                    $(this).html("<a name='" + origText + "' href='#" + url.hash + "/" + origText + "'>" + origText + "</a>")
+                const url = parseURL();
+                $('h1, h2, h3, h4, h5').each(function(value){
+                    const origText = $(this).text();
+                    $(this).html('<a name=\'' + origText + '\' href=\'#' + url.hash + '/' + origText + '\'>' + origText + '</a>');
                 });
 
                 // scroll to given anchor
@@ -123,9 +124,9 @@ $(window).bind('hashchange', function(){
 });
 
 function parseURL(){
-    var url = window.location.hash;
-    url = url.split("/");
-    url.hash = url[0].substring(1, window.location.hash.length)
+    let url = window.location.hash;
+    url = url.split('/');
+    url.hash = url[0].substring(1, window.location.hash.length);
     if(url.length > 0){
         url.anchor = url[1];
     }
@@ -135,10 +136,10 @@ function parseURL(){
 
 // scrolls to an anchor point
 function scrollTo(){
-    var url = parseURL();
-    var anchor = $("a[name='"+ url.anchor +"']");
+    const url = parseURL();
+    const anchor = $('a[name=\'' + url.anchor + '\']');
     if(anchor.length){
-        $('html,body').animate({scrollTop: anchor.offset().top},'slow');
+        $('html,body').animate({ scrollTop: anchor.offset().top }, 'slow');
     }
 }
 
@@ -148,7 +149,7 @@ function getDocs(callback){
         method: 'GET',
         url: '/sidebar'
     })
-    .done(function(response, status){
+    .done((response, status) => {
         callback(response);
     });
 }
@@ -161,19 +162,19 @@ function stripHTML(dirtyString){
 // sets the mega tags for the page
 function setMetaTags(doc){
     document.title = doc.docTitle;
-    $("meta[property='og\\:title']").attr("content", doc.docTitle);
+    $('meta[property=\'og\\:title\']').attr('content', doc.docTitle);
     $('meta[name=title]').attr('content', doc.docTitle);
     if(stripHTML(doc.docBody).length > 160){
-        $("meta[property='og\\:description']").attr('content', stripHTML(doc.docBody.substring(0,200)));
-        $('meta[name=description]').attr('content', stripHTML(doc.docBody.substring(0,200)));
+        $('meta[property=\'og\\:description\']').attr('content', stripHTML(doc.docBody.substring(0, 200)));
+        $('meta[name=description]').attr('content', stripHTML(doc.docBody.substring(0, 200)));
     }else{
-        $("meta[property='og\\:description']").attr('content', stripHTML(doc.docBody));
+        $('meta[property=\'og\\:description\']').attr('content', stripHTML(doc.docBody));
         $('meta[name=description]').attr('content', stripHTML(doc.docBody));
     }
 }
 
 function populateSideMenu(data){
-    $.each(data, function(key, value){
+    $.each(data, (key, value) => {
         $('.sidebar').append('<li class="list-group-item collection-item sidebarLink"><a href="#' + value.docSlug + '">' + value.docTitle + '</a></li>');
     });
 }
@@ -183,8 +184,8 @@ function populateTopMenu(){
         method: 'GET',
         url: '/config'
     })
-    .done(function(response, status){
-        $.each(response.menuItems, function(key, value){
+    .done((response, status) => {
+        $.each(response.menuItems, (key, value) => {
             $('.nav').append('<li><a href="' + value.menuLink + '">' + value.menuTitle + '</a></li>');
         });
     });

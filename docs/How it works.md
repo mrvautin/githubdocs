@@ -16,4 +16,4 @@ See [config](/#configuration) for setup.
 
 ##### Search
 
-Search is built using [Lunr.js](https://github.com/olivernn/lunr.js/). The index is built and stored in memory on startup. When searched from the client the API is called returning any matching docs. The menu will then display the matched docs. When the search term is removed, the full list of docs is returned.
+Search is built using [js-search](https://github.com/bvaughn/js-search). The index is built and stored in memory on startup. When searched from the client the API is called returning any matching docs. The menu will then display the matched docs. When the search term is removed, the full list of docs is returned.

@@ -24,7 +24,7 @@ See example docs here: [https://github.com/mrvautin/githubdocs/tree/master/examp
 
 ### Search
 
-Search is built using [Lunr.js](https://github.com/olivernn/lunr.js/). The index is built and stored in memory on startup. When searched from the client the API is called returning any matching docs from the embedded DB. The menu will then display the match docs. When the search term is removed, the full list of docs is returned.
+Search is built using [js-search](https://github.com/bvaughn/js-search). The index is built and stored in memory on startup. When searched from the client the API is called returning any matching docs from the embedded DB. The menu will then display the match docs. When the search term is removed, the full list of docs is returned.
 
 ### Config
 

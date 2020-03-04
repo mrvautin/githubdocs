@@ -15,35 +15,6 @@
         }
     ],
     "addAnchors": true,
-    "layoutFile": "material.html",
-    "docs": [
-        {
-            "title": "Introduction",
-            "file": "docs/Introduction.md"
-        },
-        {
-            "title": "How it works",
-            "file": "docs/How it works.md"
-        },
-        {
-            "title": "Installation",
-            "file": "docs/Installation.md"
-        },
-        {
-            "title": "Github repository",
-            "file": "docs/Github repository.md"
-        },
-        {
-            "title": "Local files",
-            "file": "docs/Local files.md"
-        },
-        {
-            "title": "Configuration",
-            "file": "docs/Configuration.md"
-        },
-        {
-            "title": "Theming",
-            "file": "docs/Theming.md"
-        }
-    ]
+    "layoutFile": "index.html",
+    "static": false
 }

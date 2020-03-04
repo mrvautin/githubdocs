@@ -4,7 +4,8 @@
     "description": "Easily build a searchable documentation Single Page Application (SPA) using markdown files in your Github Repo or local files.",
     "private": false,
     "scripts": {
-        "start": "node app.js"
+        "start": "node app.js",
+        "lint": "eslint ./"
     },
     "main": "app.js",
     "repository": {
@@ -30,28 +31,35 @@
         "url": "https://github.com/mrvautin/githubdocs/issues"
     },
     "dependencies": {
-        "async": "^2.5.0",
-        "body-parser": "~1.15.1",
+        "axios": "^0.19.2",
+        "body-parser": "^1.19.0",
         "cheerio": "^1.0.0-rc.2",
         "cli": "^1.0.1",
         "cookie-parser": "~1.4.3",
-        "debug": "~2.2.0",
-        "ejs": "^2.5.6",
-        "express": "~4.13.4",
-        "fs-extra": "^4.0.1",
-        "github": "^9.2.0",
-        "hbs": "~4.0.0",
-        "jade": "^1.11.0",
+        "debug": "^4.1.1",
+        "express": "^4.17.1",
+        "glob-promise": "^3.4.0",
+        "install": "^0.13.0",
+        "js-search": "^1.4.3",
         "lodash": "^4.17.4",
-        "lunr": "^0.7.2",
         "markdown-it": "^8.3.1",
-        "morgan": "~1.7.0",
-        "nedb": "^1.8.0",
-        "request": "^2.81.0",
-        "serve-favicon": "~2.3.0",
+        "morgan": "^1.9.1",
+        "nedb-promises": "^4.0.1",
+        "npm": "^6.14.2",
+        "serve-favicon": "^2.5.0",
+        "shortid": "^2.2.15",
         "sitemap": "^1.13.0",
         "slugify": "^1.1.0",
         "uglify-js": "^3.0.24",
         "uglifycss": "0.0.27"
+    },
+    "devDependencies": {
+        "eslint": "^6.8.0",
+        "eslint-config-standard": "^13.0.1",
+        "eslint-plugin-extra-rules": "0.0.0-development",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-node": "^9.2.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1"
     }
 }
