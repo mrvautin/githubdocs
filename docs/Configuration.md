@@ -10,7 +10,7 @@ An example `config.json` file:
     "githubRepoOwner": "mrvautin",
     "githubRepoName": "githubdocs",
     "githubRepoPath": "exampleDocs",
-    "updateDocsInterval": 300000,
+    "updateDocsCron": "*/5 * * * *",
     "addAnchors": true,
     "menuItems": [
         {
@@ -21,7 +21,8 @@ An example `config.json` file:
             "menuTitle": "Contact",
             "menuLink": "/contact"
         }
-    ]
+    ],
+    "static": false
 }
 ```
 
@@ -31,6 +32,7 @@ An example `config.json` file:
 |`githubRepoOwner`|Owner/username of the Github repo|
 |`githubRepoName`|Name of the repo holding the Markdown files|
 |`githubRepoPath`|Directory relative to the root of the repo holding the Markdown files|
-|`updateDocsInterval`|Determines the interval (in milliseconds) to poll Github for updates to your Markdown files/docs|
+|`updateDocsCron`|A cron schedule to reindex your Markdown files/docs from Github or static|
 |`addAnchors`|Transforms `H1`, `H2`, `H3`, `H4`, `H5` info HTML anchor points for easy sharing|
 |`menuItems`|Not sure how useful this is. Set the menu items in the top navigation|
+|`static`|Reads Markdown files statically from `/docs` folder. Defaults to `false`|

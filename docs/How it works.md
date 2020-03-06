@@ -10,10 +10,10 @@ See [config](/#configuration) for setup.
 
 ##### Using local Markdown files
 
-`Githubdocs` builds static files using the files supplied in the configuration file. Each file is then used to build the Single page application. When changes are made you can simple restart the website and it will be automatically updated.
+`Githubdocs` builds using files supplied `/docs` folder. Each file is then indexed to build the Single page application. When changes are made you can simple restart the website and it will be automatically updated or use the scheduler.
 
 ---
 
 ##### Search
 
-Search is built using [js-search](https://github.com/bvaughn/js-search). The index is built and stored in memory on startup. When searched from the client the API is called returning any matching docs. The menu will then display the matched docs. When the search term is removed, the full list of docs is returned.
+Search is built using [js-search](https://github.com/bvaughn/js-search). The index is built and stored in memory on startup. When searched from the client the API is called returning any matching docs. The menu will then display the matching docs. When the search term is removed, the full list of docs is returned.
