@@ -3,21 +3,38 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const Datastore = require('nedb-promises');
+let handlebars = require('express-handlebars');
+const cron = require('node-cron');
 const {
     uglify,
-    indexDocs,
-    indexStatic
+    indexDocs
 } = require('./lib/common');
 const config = require('./config/config.json');
 
-// Set either dynamic or static
-let route = require('./routes/index');
-if(config.static){
-    route = require('./routes/static');
-}
+const route = require('./routes/index');
 
 const app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, '/views'));
+app.engine('hbs', handlebars({
+    extname: 'hbs',
+    layoutsDir: path.join(__dirname, 'views', 'layouts'),
+    defaultLayout: 'layout.hbs'
+}));
+app.set('view engine', 'hbs');
+
+// Handlebars helpers
+handlebars = handlebars.create({
+    helpers: {
+        env: () => {
+            if(process.env.NODE_ENV === 'production'){
+                return '.min';
+            }
+            return '';
+        }
+    }
+});
 
 app.use(logger('dev'));
 app.set('port', process.env.PORT || 5555);
@@ -26,6 +43,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Make stuff accessible to our router
+app.use((req, res, next) => {
+    req.handlebars = handlebars;
+    next();
+});
 
 app.use('/', route);
 
@@ -60,37 +83,20 @@ app.use((err, req, res, next) => {
     });
 });
 
-// setup db
-const db = new Datastore('data/docs.db');
-db.load();
-
 // add some references to app
-app.db = db;
 app.config = config;
 
-// set the indexing to occur every Xmins - defaults to: 300000ms (5mins)
-setInterval(async() => {
-    if(config.static){
-        await indexStatic(app);
-    }else{
-        await indexDocs(app);
-    }
-}, config.updateDocsInterval || 300000);
+// set the indexing to occur every Xmins - defaults to every 5mins
+cron.schedule(config.updateDocsCron || '*/5 * * * *', async () => {
+    await indexDocs(app);
+    console.log('[INFO] Indexing complete');
+});
 
 // uglify assets
 uglify()
 .then(async() => {
     // kick off initial index
-    if(config.static){
-        // Index docs
-        await indexStatic(app);
-    }else{
-        // Remove docs on startup to re-index
-        await db.remove({}, { multi: true });
-
-        // Index docs
-        await indexDocs(app);
-    }
+    await indexDocs(app);
 
     console.log('[INFO] Indexing complete');
     // serve the app
