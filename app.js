@@ -99,6 +99,7 @@ uglify()
     await indexDocs(app);
 
     console.log('[INFO] Indexing complete');
+    console.log('[INFO] Node ENV', process.env.NODE_ENV);
     // serve the app
     app.listen(app.get('port'), app.get('bind'), () => {
         console.log('[INFO] githubdocs running on host: http://' + app.get('bind') + ':' + app.get('port'));
