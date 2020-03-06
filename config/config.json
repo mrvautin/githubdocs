@@ -2,7 +2,7 @@
     "title": "githubdocs",
     "githubRepoOwner": "mrvautin",
     "githubRepoName": "githubdocs",
-    "githubRepoPath": "exampleDocs",
+    "githubRepoPath": "docs",
     "updateDocsCron": "*/5 * * * *",
     "menuItems": [
         {
