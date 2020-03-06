@@ -17,5 +17,5 @@
     "addAnchors": true,
     "layoutFile": "layout",
     "theme": "default",
-    "static": true
+    "static": false
 }
