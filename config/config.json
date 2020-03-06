@@ -3,7 +3,7 @@
     "githubRepoOwner": "mrvautin",
     "githubRepoName": "githubdocs",
     "githubRepoPath": "exampleDocs",
-    "updateDocsInterval": 300000,
+    "updateDocsCron": "*/5 * * * *",
     "menuItems": [
         {
             "menuTitle": "About",
@@ -15,6 +15,7 @@
         }
     ],
     "addAnchors": true,
-    "layoutFile": "index.html",
-    "static": false
+    "layoutFile": "layout",
+    "theme": "default",
+    "static": true
 }

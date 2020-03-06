@@ -1,43 +1,57 @@
 const express = require('express');
-const path = require('path');
 const {
     generateSitemap
 } = require('../lib/common');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    const config = req.app.config;
+    res.render(config.theme, {
+        helpers: req.handlebars.helpers,
+        layout: config.layoutFile
+    });
 });
 
 router.get('/config', (req, res) => {
     res.status(200).json(req.app.config);
 });
 
-router.get('/sidebar', async (req, res) => {
-    const db = req.app.db;
+router.get('/sidebar', (req, res) => {
     const config = req.app.config;
-
-    const docs = await db.find({});
-    res.status(200).json({ docs: docs, config: config });
+    res.status(200).json({ docs: config.docs, config: config });
 });
 
-router.get('/doc/:slug', async (req, res) => {
-    const db = req.app.db;
+router.get('/doc/:slug', (req, res) => {
     const config = req.app.config;
+    let reqDoc = '';
+    let index = 0;
+    let reqIndex = 0;
 
-    const docs = await db.find({});
-    const doc = await db.findOne({ docSlug: req.params.slug });
+    // Find or matched doc
+    config.docs.forEach((doc) => {
+        if(doc.docSlug.toLowerCase() === req.params.slug.toLowerCase()){
+            reqDoc = doc;
+            reqIndex = index;
+        }
+        index++;
+    });
+
     res.status(200).json({
-        title: doc.docTitle,
-        doc: doc,
-        docs: docs,
+        title: reqDoc.docTitle,
+        doc: {
+            docBody: reqDoc.docBody,
+            docTitle: reqDoc.docTitle,
+            nextDoc: config.docs[reqIndex + 1],
+            prevDoc: config.docs[reqIndex - 1]
+        },
+        docs: config.docs,
         config: config
     });
 });
 
 // search on the index
-router.post('/search', async (req, res) => {
-    const db = req.app.db;
+router.post('/search', (req, res) => {
+    const config = req.app.config;
     const index = req.app.index;
 
     // we strip the ID's from the index search
@@ -46,9 +60,11 @@ router.post('/search', async (req, res) => {
         indexArray.push(id._id);
     });
 
-    // we search on the indexes
-    const results = await db.find({ _id: { $in: indexArray } });
-    res.status(200).json(results);
+    const matches = config.docs.filter((doc) => {
+        return indexArray.includes(doc._id);
+    });
+
+    res.status(200).json(matches);
 });
 
 // return sitemap

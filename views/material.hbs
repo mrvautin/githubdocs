@@ -1,0 +1,55 @@
+<nav class="white">
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo blue-text"></a>
+        <ul id="navbar" class="right">
+            <li class="hide-on-med-and-down blue-text"><a href="/">Home</a></li>
+            <li>
+                <a class="hide-on-med-and-up sidebarToggle waves-effect waves-light btn blue">
+                    <i class="material-icons white-text">menu</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col s3 sidebar-container">
+            <ul class="collection sidebar">
+                <li class="collection-item">
+                    <input id="searchInput" type="text" placeholder="Search for...">
+                </li>
+            </ul>
+        </div>
+        <div id="linkPrev" class="col s1 hide-on-small-only docLink valign-wrapper">
+            <a href="/"><i class="material-icons">navigate_before</i></a>
+        </div>
+        <div class="col s12 m7">
+            <div id="main">
+                <div class="col s12 valign-wrapper loadingWrapper">
+                    <div class="col s12 center-align">
+                        <div class="preloader-wrapper big active ">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="linkNext" class="col s1 hide-on-small-only docLink valign-wrapper">
+            <a href="/"><i class="material-icons">navigate_next</i></a>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" integrity="sha256-U/cHDMTIHCeMcvehBv1xQ052bPSbJtbuiw4QA9cTKz0=" crossorigin="anonymous"></script>
+<script src="/javascripts/main{{env}}.js"></script>

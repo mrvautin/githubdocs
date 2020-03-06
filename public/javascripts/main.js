@@ -55,8 +55,8 @@ $(document).ready(() => {
         });
     });
 
-    $('.sidebarToggle').click(() => {
-        $('.sidebar-container').toggleClass('sidebar-container-show');
+    $('#sidebarCollapse').on('click', () => {
+        $('#sidebar').toggleClass('active');
     });
 
     $('body').on('click', '.sidebarLink a', () => {
@@ -83,6 +83,10 @@ $(window).bind('hashchange', () => {
             url: '/doc/' + parseURL().hash
         })
         .done((response, status) => {
+            if(!response.doc.docBody){
+                $('#main').html('<h1 class="text-center">404 Not found<h1>');
+                return;
+            }
             $('#main').html(response.doc.docBody);
             setMetaTags(response.doc);
 

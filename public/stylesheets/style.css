@@ -4,9 +4,10 @@ body {
   margin: 0;
 }
 
-body {
-    padding-top: 30px;
-    padding-bottom: 30px;
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
 }
 
 a{
@@ -15,6 +16,11 @@ a{
 
 a:hover, a:focus{
     color: #15a589 !important;
+}
+
+.btn-primary{
+    background-color: #15a589 !important;
+    border-color: #18bc9c !important;
 }
 
 .navbar {
@@ -28,6 +34,7 @@ a:hover, a:focus{
 
 .navbar-inverse .navbar-nav>li>a, .navbar-inverse .navbar-brand {
     color: #fff;
+    font-size: 22px;
 }
 
 .navbar-nav>.active>a, .navbar-nav>.active>a:focus{
@@ -43,39 +50,23 @@ pre{
     background-color: #ecf0f1;
 }
 
-#main{
-    height: 100%;
-    width: 75%;
-    position: fixed;
-    padding: 0px;
-    left: 25%;
-    overflow-y: scroll;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 20px;
-    padding-bottom: 80px;
+#main {
+    padding: 15px;
 }
 
-.sidebar-container {
-    position: fixed;
+#sidebar {
+    min-width: 300px;
+    max-width: 300px;
+    min-height: 100vh;
     background-color: #ecf0f1;
-    height: 100%;
-    width: 25%;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 20px;
-    margin-top: 20px;
-    overflow-y: scroll;
-    border-right: 1px solid #ddd;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition:all .5s;
 }
 
-.sidebar{
-    position: relative;
-}
-
-.sidebarToggle{
-    padding-left: 10px;
-    padding-top: 30px;
+#sidebar.active {
+    margin-left: -300px;
 }
 
 .loadingHolder{
@@ -104,27 +95,10 @@ pre{
 }
 
 @media only screen and (max-width : 768px) {
-    .sidebar-container {
-        left: -25%;
+    #sidebar {
+        margin-left: -300px;
     }
-
-    .sidebar-container-show{
-        left: -0%;
-        width: 100%;
-        background-color: #fff;
-        z-index: 999;
-        -webkit-transition: all .5s;
-        -moz-transition: all .5s;
-        -o-transition: all .5s;
-        transition:all .5s;
-    }
-
-    #main{
-        width: 100%;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-top: 0;
-        padding-bottom: 100px;
-        left: 0%;
+    #sidebar.active {
+        margin-left: 0;
     }
 }
