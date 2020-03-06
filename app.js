@@ -89,7 +89,7 @@ app.config = config;
 // set the indexing to occur every Xmins - defaults to every 5mins
 cron.schedule(config.updateDocsCron || '*/5 * * * *', async () => {
     await indexDocs(app);
-    console.log('[INFO] Indexing complete');
+    console.log('[INFO] Re-indexing complete');
 });
 
 // uglify assets
