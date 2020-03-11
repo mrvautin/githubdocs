@@ -1,5 +1,10 @@
 /* globals hljs */
 $(document).ready(() => {
+    let isMobile = false;
+    if($('#xs-element').css('display') === 'none'){
+        isMobile = true;
+    }
+
     // if there is a hash, trigger the change event to display the doc
     if(window.location.hash){
         $(window).trigger('hashchange');
@@ -59,6 +64,13 @@ $(document).ready(() => {
         $('#sidebar').toggleClass('active');
     });
 
+    // When on mobile collapse sidebar when link clicked
+    $('body').on('click', '.sidebarLink', () => {
+        if(isMobile){
+            $('#sidebar').toggleClass('active');
+        }
+    });
+
     $('body').on('click', '.sidebarLink a', () => {
         $('.sidebar-container').toggleClass('sidebar-container-show');
     });
@@ -114,12 +126,6 @@ $(window).bind('hashchange', () => {
 
             // add anchor points to headings
             if(response.config.addAnchors){
-                const url = parseURL();
-                $('h1, h2, h3, h4, h5').each(function(value){
-                    const origText = $(this).text();
-                    $(this).html('<a name=\'' + origText + '\' href=\'#' + url.hash + '/' + origText + '\'>' + origText + '</a>');
-                });
-
                 // scroll to given anchor
                 scrollTo();
             }
@@ -143,7 +149,7 @@ function scrollTo(){
     const url = parseURL();
     const anchor = $('a[name=\'' + url.anchor + '\']');
     if(anchor.length){
-        $('html,body').animate({ scrollTop: anchor.offset().top }, 'slow');
+        $('html,body').animate({ scrollTop: anchor.offset().top }, 150);
     }
 }
 

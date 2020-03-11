@@ -101,4 +101,5 @@ pre{
     #sidebar.active {
         margin-left: 0;
     }
+    #xs-element { display: none; }
 }

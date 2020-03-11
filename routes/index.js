@@ -2,6 +2,8 @@ const express = require('express');
 const {
     generateSitemap
 } = require('../lib/common');
+const cheerio = require('cheerio');
+const slugify = require('slugify');
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -36,10 +38,16 @@ router.get('/doc/:slug', (req, res) => {
         index++;
     });
 
+    const $ = cheerio.load(reqDoc.docBody);
+    $('h1, h2, h3, h4, h5').each(function(value){
+        const origText = $(this).text();
+        $(this).html(`<a name="${slugify(origText)}" href="#${req.params.slug}/${slugify(origText)}">${origText}</a>`);
+    });
+
     res.status(200).json({
         title: reqDoc.docTitle,
         doc: {
-            docBody: reqDoc.docBody,
+            docBody: $.html(),
             docTitle: reqDoc.docTitle,
             nextDoc: config.docs[reqIndex + 1],
             prevDoc: config.docs[reqIndex - 1]
