@@ -31,7 +31,7 @@
         "url": "https://github.com/mrvautin/githubdocs/issues"
     },
     "dependencies": {
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "body-parser": "^1.19.0",
         "cheerio": "^1.0.0-rc.2",
         "cookie-parser": "~1.4.3",
