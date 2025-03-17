@@ -20,4 +20,4 @@ Search is built using [js-search](https://github.com/bvaughn/js-search). The ind
 
 ##### Ordering
 
-You can easily order your docs by naming the files with a `~` followed by the number order. Eg: A file name for the first file would be `~1 First file` then a second file `~2 Second file` etc. You can see an example in the `/docs` folder. Any numbering of files is stripped before indexing and display.
+You can easily order your docs by naming the files with a `n - ` where `n` is the number order. Eg: A file name for the first file would be `1 - First file` then a second file `2 - Second file` etc. You can see an example in the `/docs` folder. Any numbering of files is stripped before indexing and display.
